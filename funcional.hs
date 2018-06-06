@@ -1,5 +1,6 @@
 module Main where
 import Data.Array
+import Text.Printf
 
 main :: IO ()
 main = do
@@ -129,15 +130,15 @@ isPrime n | (length [x | x <- [2 .. n-1], mod n x == 0]) > 0 = False
           | otherwise = True
 
         ----------- BHASKARA ------------
-raizes :: Float -> Float -> Float -> (String,Float,Float)
-raizes a b c | delta a b c >= 0 = ("Raizes",x1 a b c, x2 a b c)
-             | otherwise = ("Nao possui raiz real",0,0)
+raizes :: Float -> Float -> Float -> String
+raizes a b c | delta a b c >= 0 = ("x1 = " ++ show (x1 a b c) ++ " x2 = " ++ show (x2 a b c))
+             | otherwise = "Nao possui raiz real"
 
 x1 :: Float -> Float -> Float -> Float
-x1 a b c = (-(b) + sqrt(delta a b c))/2*(a)
+x1 a b c = (-(b) + sqrt(delta a b c))/(2*(a))
 
 x2 :: Float -> Float -> Float -> Float
-x2 a b c = (-(b) - sqrt(delta a b c))/2*(a)
+x2 a b c = (-(b) - sqrt(delta a b c))/(2*(a))
 
 delta :: Float -> Float -> Float -> Float
 delta a b c = ((quadrado b) - (4*a*c))
