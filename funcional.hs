@@ -129,6 +129,11 @@ isPrime 2 = True
 isPrime n | (length [x | x <- [2 .. n-1], mod n x == 0]) > 0 = False
           | otherwise = True
 
+trocaA :: String -> String
+trocaA [] = []
+trocaA (x:xs) | x == 'a' = ['b'] ++ trocaA xs 
+              | otherwise = [x] ++ trocaA xs
+
         ----------- BHASKARA ------------
 raizes :: Float -> Float -> Float -> String
 raizes a b c | delta a b c >= 0 = ("x1 = " ++ show (x1 a b c) ++ " x2 = " ++ show (x2 a b c))
