@@ -13,6 +13,18 @@ main = do
  putStrLn ("resto : " ++ show (resto (read x) (read y)))
  putStrLn ("Divisão Exata : " ++ show (divExata (read x) (read y)))
 
+---------------------- BLITZ ---------------------------
+blitz :: IO ()
+blitz = do
+ licenciamento <- getLine
+ carteira <- getLine
+ bafometro <- getLine
+ putStrLn (verificaBlitz (read licenciamento) (read carteira) (read (bafometro) :: Double))
+
+verificaBlitz :: Int -> Int -> Double -> String
+verificaBlitz x y z | (x < 30 && y < 30 && z <= 0.05) == True = "False"
+               | otherwise = "True"
+
 ---------------- ULTIMAS VOGAIS DE 5 PALAVRAS -----------------
 ultimasVogais :: IO ()
 ultimasVogais = do
