@@ -27,13 +27,18 @@ wally = do
    then return()
    else do
    let palavras = words x
-   putStrLn ("Palavras : " ++ pegaCinco palavras)
+   putStrLn ("nome possivel : " ++ pegaUltimo (words (pegaCinco palavras)))
    wally
 
 pegaCinco :: [String] -> String
 pegaCinco [] = ""
 pegaCinco (x:xs) | length x == 5 =  x ++ " " ++ pegaCinco xs
                  | otherwise = pegaCinco xs
+
+pegaUltimo :: [String] -> String
+pegaUltimo [] = "?"
+pegaUltimo [x] = x
+pegaUltimo (x:xs) = pegaUltimo xs
 
 -- definir funcao
 fatorial 0 = 1
