@@ -2,6 +2,7 @@ module Main where
 import Data.Array
 import Text.Printf
 
+---------------------- DIVISAO EXATA, INTEIRA E RESTO ----------------------
 main :: IO ()
 main = do
  putStrLn "digite uma palavra: "
@@ -12,15 +13,29 @@ main = do
  putStrLn ("resto : " ++ show (resto (read x) (read y)))
  putStrLn ("Divisão Exata : " ++ show (divExata (read x) (read y)))
 
-minimo :: Int -> Int -> Int
-minimo x y | x > y = y
-           | otherwise = x
+---------------- ULTIMAS VOGAIS DE 5 PALAVRAS -----------------
+ultimasVogais :: IO ()
+ultimasVogais = do
+ palavra1 <- getLine
+ palavra2 <- getLine
+ palavra3 <- getLine
+ palavra4 <- getLine
+ palavra5 <- getLine
+ let palavras = [palavra1, palavra2, palavra3, palavra4, palavra5]
+ putStrLn (retornaVogais palavras)
 
-maiorPalavra :: String -> String -> String
-maiorPalavra a b | (length a) > (length b) = a
-                 | otherwise = b
+retornaVogais :: [String] -> String
+retornaVogais [] = ""
+retornaVogais (x:xs) | ((verifica x) == "a" || (verifica x) == "e" || (verifica x) == "i" || (verifica x) == "o"
+                                  || (verifica x) == "u") = verifica x ++ retornaVogais xs
+                     | otherwise = retornaVogais xs
+
+verifica :: String -> String
+verifica [x] = [x]
+verifica (x:xs) = verifica xs
 
 ----------------------- ONDE ESTA WALLY -------------------------
+wally :: IO()
 wally = do
  putStrLn "digite nomes: "
  x <- getLine
@@ -83,6 +98,15 @@ lista = [1,2..10]
 -- elemento:lista
 -- 1:2:3:[] construir lista
 
+minimo :: Int -> Int -> Int
+minimo x y | x > y = y
+           | otherwise = x
+
+------------------- FUNCOES -----------------------
+
+maiorPalavra :: String -> String -> String
+maiorPalavra a b | (length a) > (length b) = a
+                 | otherwise = b
 
 contains :: [Int] -> Int -> Bool
 contains [] _ = False
