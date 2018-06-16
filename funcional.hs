@@ -20,6 +20,7 @@ maiorPalavra :: String -> String -> String
 maiorPalavra a b | (length a) > (length b) = a
                  | otherwise = b
 
+----------------------- ONDE ESTA WALLY -------------------------
 wally = do
  putStrLn "digite nomes: "
  x <- getLine
