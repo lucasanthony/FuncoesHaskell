@@ -8,7 +8,9 @@ main = do
  x <- getLine
  putStrLn "digite outra palavra: "
  y <- getLine
- putStrLn ("a maior palavra eh: " ++ maiorPalavra x y)
+ putStrLn ("Divisão inteira : " ++ show (divInteira (read x) (read y)))
+ putStrLn ("resto : " ++ show (resto (read x) (read y)))
+ putStrLn ("Divisão Exata : " ++ show (divExata (read x) (read y)))
 
 minimo :: Int -> Int -> Int
 minimo x y | x > y = y
@@ -17,6 +19,21 @@ minimo x y | x > y = y
 maiorPalavra :: String -> String -> String
 maiorPalavra a b | (length a) > (length b) = a
                  | otherwise = b
+
+wally = do
+ putStrLn "digite nomes: "
+ x <- getLine
+ if (x == "wally")
+   then return()
+   else do
+   let palavras = words x
+   putStrLn ("Palavras : " ++ pegaCinco palavras)
+   wally
+
+pegaCinco :: [String] -> String
+pegaCinco [] = ""
+pegaCinco (x:xs) | length x == 5 =  x ++ " " ++ pegaCinco xs
+                 | otherwise = pegaCinco xs
 
 -- definir funcao
 fatorial 0 = 1
@@ -131,8 +148,18 @@ isPrime n | (length [x | x <- [2 .. n-1], mod n x == 0]) > 0 = False
 
 trocaA :: String -> String
 trocaA [] = []
-trocaA (x:xs) | x == 'a' = ['b'] ++ trocaA xs 
+trocaA (x:xs) | x == 'a' = ['b'] ++ trocaA xs
               | otherwise = [x] ++ trocaA xs
+
+
+divInteira :: Int -> Int -> Int
+divInteira x y = div x y
+
+resto :: Int -> Int -> Int
+resto x y = mod x y
+
+divExata :: Float -> Float -> Float
+divExata x y = x/y
 
         ----------- BHASKARA ------------
 raizes :: Float -> Float -> Float -> String
@@ -151,6 +178,15 @@ delta a b c = ((quadrado b) - (4*a*c))
 -- filter
 -- filter (Bool) [lista]
 -- filter (isPrime) [1 .. 10]
+
+abcde :: [Int]
+abcde = [1,2,3,4]
+
+getabcde :: [Int]
+getabcde = abcde
+
+removeabcde :: [Int] -> [Int]
+removeabcde (x:xs) = xs
 
 -----------
 type Dig = Int
