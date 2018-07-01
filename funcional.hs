@@ -115,6 +115,12 @@ minimo x y | x > y = y
            | otherwise = x
 
 ------------------- FUNCOES -----------------------
+replace :: Int -> [a] -> [a] -> [a]
+replace _ [] _ = []
+replace _ xs [] = xs
+replace 0 (_:xs) ys = ys ++ xs
+replace n (x:xs) ys | n == 0 = ys ++ xs
+                    | otherwise = [x] ++ replace (n-1) xs ys
 
 maiorPalavra :: String -> String -> String
 maiorPalavra a b | (length a) > (length b) = a
@@ -202,6 +208,23 @@ resto x y = mod x y
 
 divExata :: Float -> Float -> Float
 divExata x y = x/y
+
+--------------- EXEMPLO REDIN -----------------
+removeElem :: [Int] -> Int -> [Int]
+removeElem [] _ = []
+removeElem (x:xs) i | i == x = removeElem xs i
+                    | otherwise = [x] ++ removeElem xs i
+
+esvaziaLista :: [Int] -> IO()
+esvaziaLista lista = do -- começa com a lista full [1,2,3,4,5]
+  if (length lista == 0) then do
+    putStrLn ("Parabens, voce esvaziou a lista!")
+  else do
+    putStrLn ("Que numero quer remover?\n")
+    print lista
+    input <- getLine -- pede pra remover o 3
+    let op = read input
+    esvaziaLista (removeElem lista op) -- chama recursivamente passando a lista atualizada [1,2,4,5]
 
         ----------- BHASKARA ------------
 raizes :: Float -> Float -> Float -> String
