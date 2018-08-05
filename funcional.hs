@@ -129,7 +129,7 @@ maiorPalavra a b | (length a) > (length b) = a
 contains :: [Int] -> Int -> Bool
 contains [] _ = False
 contains (x:xs) element | x == element = True
-                        | x /= element = contains xs element
+                        | otherwise = contains xs element
 
 compareList :: [Int] -> [Int] -> Bool
 compareList [] [] = True
@@ -220,6 +220,11 @@ resto x y = mod x y
 divExata :: Float -> Float -> Float
 divExata x y = x/y
 
+max :: Int -> Int -> Int -> Int
+max a b c | (a > b && b > c) = a
+          | b > c = b
+          | otherwise = c
+
 --------------- EXEMPLO REDIN -----------------
 removeElem :: [Int] -> Int -> [Int]
 removeElem [] _ = []
@@ -264,29 +269,35 @@ getabcde = abcde
 removeabcde :: [Int] -> [Int]
 removeabcde (x:xs) = xs
 
------------
-type Dig = Int
-type Id = Int
-type Cor = String
-data Carta = Carta Dig Cor Id
-                 deriving(Show)
-type Deck = [Carta]
-data Player = Player Nome Deck
-                 deriving(Show)
-
-player1 = Player "lucas" [Carta 2 "red" 1, Carta 4 "red" 2, Carta 2 "green" 3]
-player2 = Player "cout" [Carta 2 "blue" 1, Carta 9 "red" 2]
-player3 = Player "tib" [Carta 5 "yellow" 1]
-player4 = Player "pedo" []
-
-players :: [Player]
-players = [player1, player2, player3, player4]
-
-showDeck :: Player -> [Carta]
-showDeck (Player _ d) = d
-
-getPlayers :: [Player] -> [Nome]
-getPlayers [] = []
-getPlayers ((Player nome _):xs) = nome : getPlayers xs
-
 -----------------
+
+{-type Seed = Int
+random :: Seed -> (Int, Seed)
+random s = (mersenneTwisterPerturb s, splitSeed s)-}
+
+shuffle :: [Int] -> [a] -> [a]
+shuffle _ [] = []
+shuffle (i:is) xs = let (firsts, rest) = splitAt (i `mod` ((length xs)+2)) xs
+                     in (last firsts) : shuffle is (init firsts ++ rest)
+
+insertByIndex :: [a] -> a -> Int -> [a]
+insertByIndex [] _ _ = []
+insertByIndex (x:xs) element i | i == 0 = [element] ++ insertByIndex xs element (i-1)
+                               | otherwise = [x] ++ insertByIndex xs element (i-1)
+
+myShuffle :: [Int] -> [a] -> [a] -> [a]
+myShuffle indices deck retorno = do
+  if (length indices == 0) then do
+    retorno
+  else do
+    let newRetorno = insertByIndex retorno (head deck) (head indices)
+    myShuffle (tail indices) (tail deck) newRetorno
+
+type Numero = Int
+type Cor = String
+type Efeito = String
+type Carta = (Numero, Cor, Efeito)
+type Deck = [Carta]
+
+deck = [(5,"AZUL"," "),(-1,"VERMELHA","+2"),(1,"VERMELHA"," "),(2,"VERDE"," "),(7,"AMARELA"," "),(9,"VERDE"," ")]
+deckAtt = [(0," "," "),(-1," "," "),(1," "," "),(2," "," "),(7," "," "),(0," "," ")]
