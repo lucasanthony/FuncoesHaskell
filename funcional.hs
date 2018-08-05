@@ -156,6 +156,17 @@ somaElements :: [Int] -> Int
 somaElements [] = 0
 somaElements (x:xs) = x + somaElements xs
 
+uniao :: [Int] -> [Int] -> IO()
+uniao lista1 lista2 = do
+  if (length lista2 == 0) then do
+    print lista1
+  else do
+    let element = head lista2
+    if (contains lista1 element) then do
+      uniao lista1 (tail lista2)
+    else do
+      uniao (lista1 ++ [element]) (tail lista2)
+
 -- [x : x <- [1,2..10], cond,cond...]
 -- zip [1,2,3] [4,5,6] = [(1,4),(2,5),(3,6)]
 
