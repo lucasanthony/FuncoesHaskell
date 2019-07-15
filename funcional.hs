@@ -1,6 +1,7 @@
 module Main where
 import Data.Array
 import Text.Printf
+import System.IO
 
 ---------------------- DIVISAO EXATA, INTEIRA E RESTO ----------------------
 main :: IO ()
@@ -224,6 +225,14 @@ max :: Int -> Int -> Int -> Int
 max a b c | (a > b && b > c) = a
           | b > c = b
           | otherwise = c
+          
+split :: String -> Char -> [String]
+split [] delim = [""]
+split (c:cs) delim
+    | c == delim = "" : rest
+    | otherwise = (c : head rest) : tail rest
+    where
+        rest = split cs delim
 
 --------------- EXEMPLO REDIN -----------------
 removeElem :: [Int] -> Int -> [Int]
@@ -285,19 +294,47 @@ insertByIndex [] _ _ = []
 insertByIndex (x:xs) element i | i == 0 = [element] ++ insertByIndex xs element (i-1)
                                | otherwise = [x] ++ insertByIndex xs element (i-1)
 
-myShuffle :: [Int] -> [a] -> [a] -> [a]
-myShuffle indices deck retorno = do
-  if (length indices == 0) then do
-    retorno
-  else do
-    let newRetorno = insertByIndex retorno (head deck) (head indices)
-    myShuffle (tail indices) (tail deck) newRetorno
+---------------------------------------------------------------------------------------------------
+-------------------------------------- QUESTÕES URI -----------------------------------------------
+---------------------------------------------------------------------------------------------------
 
-type Numero = Int
-type Cor = String
-type Efeito = String
-type Carta = (Numero, Cor, Efeito)
-type Deck = [Carta]
+   ------ TCC da Depressão Natalino --------
 
-deck = [(5,"AZUL"," "),(-1,"VERMELHA","+2"),(1,"VERMELHA"," "),(2,"VERDE"," "),(7,"AMARELA"," "),(9,"VERDE"," ")]
-deckAtt = [(0," "," "),(-1," "," "),(1," "," "),(2," "," "),(7," "," "),(0," "," ")]
+-- import System.IO
+tcc :: IO ()
+tcc = do
+ x <- getLine
+ let list = (split x ' ')
+ let y = head list
+ let z = last list
+ let a = read y :: Int
+ let b = read z :: Int
+ putStrLn (verificaTcc a b)
+
+verificaTcc :: Int -> Int -> String
+verificaTcc entrega prazo | entrega > prazo || prazo > 24 = "Eu odeio a professora!"
+                     | prazo - entrega >= 3 = "Muito bem! Apresenta antes do Natal!"
+                     | prazo - entrega <= 3 && entrega+2 >= 24 = "Parece o trabalho do meu filho!\nFail! Entao eh nataaaaal!"
+                     | otherwise = "Parece o trabalho do meu filho!\nTCC Apresentado!"
+
+----------- Léxico -------------
+
+-- import System.IO
+
+lexico :: IO ()
+lexico = do
+ word1 <- getLine
+ word2 <- getLine
+ let lista1 = split word1 ' '
+ let lista2 = split word2 ' '
+ putStrLn (verificaLexico word1 word2 lista1 lista2)
+
+verificaLexico :: String -> String -> [String] -> [String] -> String
+verificaLexico word1 word2 (x:xs) (y:ys) | x == "" || y == "" = verificaLexico word1 word2 xs ys
+                                   | x == y && (length xs) == 0 && (length ys) > 0 = word1 ++ "\n" ++ word2
+                                   | x == y && (length ys) == 0 && (length xs) > 0 = word2 ++ "\n" ++ word1
+                                   | x == y && (length xs) == 0 && (length ys) == 0 = word1 ++ "\n" ++ word2
+                                   | x == y = verificaLexico word1 word2 xs ys
+                                   | x < y = word1 ++ "\n" ++ word2
+                                   | x > y = word2 ++ "\n" ++ word1
+                                   | otherwise = "aaa"
